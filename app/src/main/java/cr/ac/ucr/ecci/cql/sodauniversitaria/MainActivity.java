@@ -108,8 +108,27 @@ public class MainActivity extends AppCompatActivity {
 
     // Ir a la calculadora de propinas
     private void irCalculadoraPropina(Persona persona, Soda soda){
-
+        //Intent para llamar a la Actividad Calculadora
+        Intent intent = new Intent(this, CalculadoraActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, persona);
+        // Deseo recibir una respuesta: startActivityForResult()
+        startActivityForResult(intent, SECOND_ACTIVITY_RESULT_CODE);
     }
+
+    // El método se llama cuando la segunda actividad termina
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    // check that it is the SecondActivity with an OK result
+        if (requestCode == SECOND_ACTIVITY_RESULT_CODE) {
+            if (resultCode == RESULT_OK) {
+    // Obtener datos del Intent
+            String returnString = data.getStringExtra("montoStr");
+    // mostrar la respuesta
+                Toast.makeText(getApplicationContext(), returnString, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
     // Ir al listado de las sodas de la universidad
     private void irListaSodas(Soda soda){
 
